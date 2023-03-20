@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 @Data
 public class Liked {
     private Integer id;
-    private User user;
-    private Post post;
+    private Integer user;
+    private Integer post;
     private LocalDateTime dateTime;
 }

@@ -1,5 +1,7 @@
 package com.example.homework51.service;
 
+import com.example.homework51.dto.PostDTO;
+import com.example.homework51.entity.Comment;
 import org.springframework.stereotype.Service;
 
 import java.sql.Connection;
@@ -31,6 +33,64 @@ public class DataService {
         try {
             createNewDatabase();
             conn.createStatement().execute("select  * from users");
+            return "All is OK";
+        } catch (SQLException e) {
+            return e.getMessage();
+        }
+    }
+    public String post(PostDTO postDTO){
+        try {
+            String insertPostQuery = "INSERT INTO post (image, description, dateTime, authorEmail) " +
+                    "VALUES ('" + postDTO.getImage() + "','" + postDTO.getDescription() +
+                    "', '" + postDTO.getTime().toString() + "', 'john.smith@gmail.com')";
+            executeUpdate(insertPostQuery);
+            return "OK";
+        }catch (Exception e){
+            return "ERROR";
+        }
+    }
+    public String delete(Integer postId) {
+        try {
+            conn.createStatement().execute("DELETE FROM comments WHERE postID = " + postId);
+            conn.createStatement().execute("DELETE FROM posts WHERE id = " + postId);
+            return "All is OK";
+        } catch (SQLException e) {
+            return e.getMessage();
+        }
+    }
+    public String subscribe(Integer userId) {
+        try {
+            String insertFollowedQuery = "INSERT INTO followed (userId, followerId, dateTime) " +
+                    "VALUES (" + userId + ", 2 , '2022-03-16 12:10:00')";
+            executeUpdate(insertFollowedQuery);
+            return "All is OK";
+        } catch (SQLException e) {
+            return e.getMessage();
+        }
+    }
+    public String comment(Integer postId, Comment comment) {
+        try {
+            String insertCommentQuery = "INSERT INTO comment (postId, userEmail, text, dateTime) " +
+                    "VALUES (" + postId + ", 'jane.doe@gmail.com'," +comment.getText() + ", '2022-03-16 12:15:00')";
+            executeUpdate(insertCommentQuery);
+            return "All is OK";
+        } catch (SQLException e) {
+            return e.getMessage();
+        }
+    }
+    public String like(Integer postId) {
+        try {
+            String insertLikedQuery = "INSERT INTO liked (userEmail, postId, dateTime) " +
+                    "VALUES ('jane.doe@gmail.com'," + postId + ", '2022-03-16 12:05:00')";
+            executeUpdate(insertLikedQuery);
+            return "All is OK";
+        } catch (SQLException e) {
+            return e.getMessage();
+        }
+    }
+    public String deleteComment(Integer commentId) {
+        try {
+            conn.createStatement().execute("DELETE FROM comments WHERE id = " + commentId);
             return "All is OK";
         } catch (SQLException e) {
             return e.getMessage();

@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 @Data
 public class Followed {
     private Integer id;
-    private User user;
-    private User follower;
+    private Integer user;
+    private Integer follower;
     private LocalDateTime dateTime;
 }
